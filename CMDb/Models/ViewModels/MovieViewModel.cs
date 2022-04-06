@@ -12,7 +12,7 @@ namespace CMDb.Models.ViewModels
         #endregion
 
         #region Properties
-        public TopMoviePropertiesOmdbDto moviedetails { get; set; }
+        public TopMoviePropertiesOmdbDto MovieDetails { get; set; }
         public string id { get; set; }
         #endregion
 
@@ -20,7 +20,7 @@ namespace CMDb.Models.ViewModels
         public MovieViewModel(IEnumerable<TopMoviesPropertiesCmdbDto> topmoviescmdb, TopMoviePropertiesOmdbDto moviedetails, string id)
         {
             this.topMoviesCmdb = topmoviescmdb.ToList();
-            this.moviedetails = moviedetails;
+            this.MovieDetails = moviedetails;
             this.id = id;
             this.Title = moviedetails.Title;
             this.Actors = moviedetails.Actors;
