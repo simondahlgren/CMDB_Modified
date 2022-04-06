@@ -14,7 +14,7 @@ namespace CMDb.Controllers
     
     public class HomeController : Controller
     {
-        List<TopMoviePropertiesOmdbDto> omdbmovies = new List<TopMoviePropertiesOmdbDto>();
+        List<TopMoviePropertiesOmdbDto> topRatedMoviesOmdb = new List<TopMoviePropertiesOmdbDto>();
  
         private readonly IRepository repository;
         public HomeController(IRepository repository)
@@ -26,28 +26,28 @@ namespace CMDb.Controllers
         {
             try
             {
-                var taskList = new List<Task>();
-                var TopMoviesFromCmdbDb = await repository.GetTopMoviesAsync();//Hämtar toplistan från Cineasternas databas
-                TopMoviesFromCmdbDb.OrderBy(topmovie => topmovie.NumberOfLikes);
-                foreach (var movie in TopMoviesFromCmdbDb)
+                var tasks = new List<Task>();
+                var topRatedMoviesCmdb = await repository.GetTopMoviesAsync();//Hämtar toplistan från Cineasternas databas
+                topRatedMoviesCmdb.OrderBy(movies => movies.NumberOfLikes);
+                foreach (var movie in topRatedMoviesCmdb)
                 {
-                    if(taskList.Count == 25)// Vi hämtar bara in antalet nödvändiga filmer på första sidan för att minska laddningstiden plus 5 för att undvika kraschar. 
+                    if(tasks.Count == 25)// Vi hämtar bara in antalet nödvändiga filmer på första sidan för att minska laddningstiden plus 5 för att undvika kraschar. 
                     {
                         break;
                     }
-                    taskList.Add(
+                    tasks.Add(
                         Task.Run(
                             async () =>
                             {
-                                var topOneRatedMovieOmdb = await repository.GetMovie(movie.ImdbID);//Hämtar topfilmen från Omdb
-                                topOneRatedMovieOmdb.NumberOfDislikes = movie.NumberOfDislikes;
-                                topOneRatedMovieOmdb.NumberOfLikes = movie.NumberOfLikes;
-                                omdbmovies.Add(topOneRatedMovieOmdb);                         
+                                var topRatedMovieOmdb = await repository.GetMovie(movie.ImdbID);//Hämtar topfilmen från Omdb
+                                topRatedMovieOmdb.NumberOfDislikes = movie.NumberOfDislikes;
+                                topRatedMovieOmdb.NumberOfLikes = movie.NumberOfLikes;
+                                topRatedMoviesOmdb.Add(topRatedMovieOmdb);                         
                             }
                         ));
                 }
-                await Task.WhenAll(taskList);//Klar       
-                var model = new HomeViewModel(omdbmovies);
+                await Task.WhenAll(tasks);//Klar       
+                var model = new HomeViewModel(topRatedMoviesOmdb);
                 return View(model);//Skickar informationen
             }
             catch (System.Exception)//För felhantering
