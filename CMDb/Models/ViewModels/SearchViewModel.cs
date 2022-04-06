@@ -11,10 +11,10 @@ namespace CMDb.Models.ViewModels
         SearchedMovieOmdbDto fakeMovieForNoSearchResult { get; set; } = new SearchedMovieOmdbDto();
 
         #region Constructors
-        public SearchViewModel(SearchOmdbDto searchForMovies)
+        public SearchViewModel(SearchOmdbDto searchResultMovieList)
         {
-            CheckIfListIsNull(searchForMovies);      
-            this.Search = searchForMovies.Search.ToList();
+            IsMovieListNull(searchResultMovieList);      
+            this.Search = searchResultMovieList.Search.ToList();
 
         }
         public SearchViewModel()
@@ -27,17 +27,17 @@ namespace CMDb.Models.ViewModels
         /// <summary>
         /// Lägger till ett objekt om sökningen är null
         /// </summary>
-        /// <param name="searchForMovies"></param>
+        /// <param name="searchResultMovieList"></param>
         /// <param name="searchedmovie"></param>
-        private void CheckIfListIsNull(SearchOmdbDto searchForMovies)
+        private void IsMovieListNull(SearchOmdbDto searchResultMovieList)
         {
-            if (searchForMovies.Search == null)
+            if (searchResultMovieList.Search == null)
             {
-                searchForMovies.Search = new List<SearchedMovieOmdbDto>();
+                searchResultMovieList.Search = new List<SearchedMovieOmdbDto>();
                 fakeMovieForNoSearchResult.imdbID = "";
                 fakeMovieForNoSearchResult.Poster = "";
                 fakeMovieForNoSearchResult.Title = "";
-                searchForMovies.Search.Add(fakeMovieForNoSearchResult);
+                searchResultMovieList.Search.Add(fakeMovieForNoSearchResult);
             }
         } 
         #endregion

@@ -29,9 +29,9 @@ namespace CMDb.Controllers
         {
             try
             { 
-                var searchResultMovies = repository.SearchResult(searchInput);//Söker filmer i Omdb baserat på searchinput
-                await Task.WhenAll(searchResultMovies);
-                var movies = await searchResultMovies;
+                var searchResultMovieList = repository.SearchResult(searchInput);//Söker filmer i Omdb baserat på searchinput
+                await Task.WhenAll(searchResultMovieList);
+                var movies = await searchResultMovieList;
                 var model = new SearchViewModel(movies);
                 return View("Index", model);//Skickar informationen
 
