@@ -28,15 +28,15 @@ namespace CMDb.Controllers
 
             try
             {
-                var task1 = repository.GetTopMoviesAsync();
-                var task2 = repository.GetMovie(id);
+                var topRatedMoviesCmdb = repository.GetTopMoviesAsync();
+                var choosenMovie = repository.GetMovie(id);
 
-                await Task.WhenAll(task1, task2);//Klar
+                await Task.WhenAll(topRatedMoviesCmdb, choosenMovie);//Klar
 
-                var topmovies = await task1;
-                var movie = await task2;
+                var topMovies = await topRatedMoviesCmdb;
+                var movie = await choosenMovie;
 
-                var model = new MovieViewModel(topmovies, movie, id);
+                var model = new MovieViewModel(topMovies, movie, id);
                 return View("index", model);//Skickar informationen
 
             }
