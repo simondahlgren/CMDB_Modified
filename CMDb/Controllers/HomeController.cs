@@ -26,27 +26,27 @@ namespace CMDb.Controllers
         {
             try
             {
-                var tasks = new List<Task>();
-                var topmovies = await repository.GetTopMoviesAsync();//Hämtar toplistan från Cineasternas databas
-                topmovies.OrderBy(topmovie => topmovie.NumberOfLikes);
-                foreach (var topmovie in topmovies)
+                var taskList = new List<Task>();
+                var TopMoviesFromCmdbDb = await repository.GetTopMoviesAsync();//Hämtar toplistan från Cineasternas databas
+                TopMoviesFromCmdbDb.OrderBy(topmovie => topmovie.NumberOfLikes);
+                foreach (var movie in TopMoviesFromCmdbDb)
                 {
-                    if(tasks.Count == 25)// Vi hämtar bara in antalet nödvändiga filmer på första sidan för att minska laddningstiden plus 5 för att undvika kraschar. 
+                    if(taskList.Count == 25)// Vi hämtar bara in antalet nödvändiga filmer på första sidan för att minska laddningstiden plus 5 för att undvika kraschar. 
                     {
                         break;
                     }
-                    tasks.Add(
+                    taskList.Add(
                         Task.Run(
                             async () =>
                             {
-                                var movie = await repository.GetMovie(topmovie.ImdbID);//Hämtar topfilmen från Omdb
-                                movie.NumberOfDislikes = topmovie.NumberOfDislikes;
-                                movie.NumberOfLikes = topmovie.NumberOfLikes;
-                                omdbmovies.Add(movie);                         
+                                var topOneRatedMovieOmdb = await repository.GetMovie(movie.ImdbID);//Hämtar topfilmen från Omdb
+                                topOneRatedMovieOmdb.NumberOfDislikes = movie.NumberOfDislikes;
+                                topOneRatedMovieOmdb.NumberOfLikes = movie.NumberOfLikes;
+                                omdbmovies.Add(topOneRatedMovieOmdb);                         
                             }
                         ));
                 }
-                await Task.WhenAll(tasks);//Klar       
+                await Task.WhenAll(taskList);//Klar       
                 var model = new HomeViewModel(omdbmovies);
                 return View(model);//Skickar informationen
             }
