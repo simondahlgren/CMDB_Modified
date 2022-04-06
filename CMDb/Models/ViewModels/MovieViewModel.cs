@@ -8,7 +8,7 @@ namespace CMDb.Models.ViewModels
     public class MovieViewModel : TopMoviePropertiesOmdbDto
     {
         #region List
-        public List<TopMoviesPropertiesCmdbDto> topmoviescmdb;
+        public List<TopMoviesPropertiesCmdbDto> topMoviesCmdb;
         #endregion
 
         #region Properties
@@ -19,7 +19,7 @@ namespace CMDb.Models.ViewModels
         #region Constructors
         public MovieViewModel(IEnumerable<TopMoviesPropertiesCmdbDto> topmoviescmdb, TopMoviePropertiesOmdbDto moviedetails, string id)
         {
-            this.topmoviescmdb = topmoviescmdb.ToList();
+            this.topMoviesCmdb = topmoviescmdb.ToList();
             this.moviedetails = moviedetails;
             this.id = id;
             this.Title = moviedetails.Title;
@@ -51,12 +51,12 @@ namespace CMDb.Models.ViewModels
         /// </summary>
         public void GetLikesAndDislikesForMovie()
         {
-            for (int i = 0; i < topmoviescmdb.Count; i++)
+            for (int i = 0; i < topMoviesCmdb.Count; i++)
             {
-                if (topmoviescmdb[i].ImdbID == id)
+                if (topMoviesCmdb[i].ImdbID == id)
                 {
-                    this.NumberOfLikes = topmoviescmdb[i].NumberOfLikes;
-                    this.NumberOfDislikes = topmoviescmdb[i].NumberOfDislikes;
+                    this.NumberOfLikes = topMoviesCmdb[i].NumberOfLikes;
+                    this.NumberOfDislikes = topMoviesCmdb[i].NumberOfDislikes;
                 }
 
 
