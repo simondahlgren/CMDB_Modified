@@ -8,7 +8,7 @@ namespace CMDb.Models.ViewModels
     public class MovieViewModel : TopMoviePropertiesOmdbDto
     {
         #region List
-        public List<TopMoviesPropertiesCmdbDto> topMoviesCmdb;
+        private List<TopMoviesPropertiesCmdbDto> topMoviesCmdb;
         #endregion
 
         #region Properties
@@ -58,7 +58,6 @@ namespace CMDb.Models.ViewModels
                     this.NumberOfLikes = topMoviesCmdb[i].NumberOfLikes;
                     this.NumberOfDislikes = topMoviesCmdb[i].NumberOfDislikes;
                 }
-
 
             }
 
